@@ -12,4 +12,13 @@ export class NumerologyController {
     }
     return this.numerologyService.getDailyPrediction(dob, date);
   }
+
+  @Get('monthly')
+  getMonthlyOverview(
+    @Query('dob') dob: string,
+    @Query('month') month?: string,
+  ) {
+    if (!dob) throw new BadRequestException('Date of birth (dob) is required');
+    return this.numerologyService.getMonthlyOverview(dob, month);
+  }
 }

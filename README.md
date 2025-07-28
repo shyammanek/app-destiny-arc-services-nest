@@ -95,4 +95,12 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 ## License
 
+
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+ 
+## monthly service CURL
+curl --location 'http://localhost:3000/numerology/monthly?dob=1998-11-27&month=2025-08' \
+--header 'Content-Type: application/json'
+
+## Daily service CURL
+curl --location 'http://localhost:3000/numerology/daily?dob=1998-11-27'

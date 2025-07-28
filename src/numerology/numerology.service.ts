@@ -17,6 +17,19 @@ export interface DailyPredictionResult extends PredictionResult {
   message: string;
 }
 
+export interface MonthlyReportResult {
+  title: string;
+  summary: string;
+  focusThemes: string[];
+  challenges: string[];
+  guidance: string;
+  luckyColor: string;
+  luckyNumber: number;
+  affirmation: string;
+  quote: string;
+  focusArea: string;
+}
+
 @Injectable()
 export class NumerologyService {
   getDailyPrediction(dob: string, dateStr?: string): DailyPredictionResult {
@@ -34,6 +47,34 @@ export class NumerologyService {
     };
   }
 
+  getMonthlyOverview(
+    dob: string,
+    monthStr?: string,
+  ): {
+    month: string;
+    lifePath: number;
+    monthlyNumber: number;
+    message: string;
+  } & MonthlyReportResult {
+    const targetMonth = monthStr ? new Date(`${monthStr}-01`) : new Date();
+    const year = targetMonth.getFullYear();
+    const month = targetMonth.getMonth() + 1;
+
+    const lifePath = this.calculateLifePath(dob);
+    const total = month + this.sumDigits(year) + lifePath;
+    const monthlyNumber = this.reduceToSingleDigit(total);
+
+    const report = this.generateMonthlyReport(monthlyNumber);
+
+    return {
+      month: `${year}-${String(month).padStart(2, '0')}`,
+      lifePath,
+      monthlyNumber,
+      ...report,
+      message: 'Monthly overview prediction generated successfully',
+    };
+  }
+
   private calculateLifePath(dob: string): number {
     const digits = dob.replace(/[^0-9]/g, '');
     let sum = [...digits].reduce((acc, digit) => acc + +digit, 0);
@@ -41,6 +82,91 @@ export class NumerologyService {
       sum = [...sum.toString()].reduce((a, b) => +a + +b, 0);
     }
     return sum;
+  }
+
+  private sumDigits(n: number): number {
+    return [...n.toString()].reduce((sum, digit) => sum + +digit, 0);
+  }
+
+  private reduceToSingleDigit(n: number): number {
+    while (![11, 22, 33].includes(n) && n > 9) {
+      n = [...n.toString()].reduce((sum, digit) => sum + +digit, 0);
+    }
+    return n;
+  }
+
+  private generateMonthlyReport(number: number): MonthlyReportResult {
+    const map: Record<number, MonthlyReportResult> = {
+      1: {
+        title: 'Leadership and New Beginnings',
+        summary: 'This month encourages you to take the lead and step into new opportunities. Independence and confidence will bring rewards.',
+        focusThemes: ['Initiative', 'Courage', 'Self-Reliance'],
+        challenges: ['Impatience', 'Aggression', 'Loneliness'],
+        guidance: 'Be bold but not reckless. Use your energy to inspire others.',
+        luckyColor: 'Red',
+        luckyNumber: 1,
+        affirmation: 'I lead with courage and clarity.',
+        quote: 'The journey of a thousand miles begins with one step. – Lao Tzu',
+        focusArea: 'Action',
+      },
+
+      6: {
+        title: 'Emotional Growth and Service',
+        summary: 'This month brings a nurturing energy centered around family, community, and emotional healing.',
+        focusThemes: ['Family support', 'Emotional balance', 'Healing'],
+        challenges: [
+          'Overcommitting',
+          'Neglecting self-care',
+          'People-pleasing',
+        ],
+        guidance: 'Support others but don’t lose yourself. Make time for emotional boundaries.',
+        luckyColor: 'Pink',
+        luckyNumber: 6,
+        affirmation: 'I give and receive love freely. I am a source of peace.',
+        quote: 'The best way to find yourself is to lose yourself in the service of others. – Gandhi',
+        focusArea: 'Care',
+      },
+
+      8: {
+        title: 'Success and Ambition',
+        summary: 'This is a month of career focus and financial empowerment. Stay disciplined and make confident decisions.',
+        focusThemes: ['Goals', 'Authority', 'Discipline'],
+        challenges: ['Burnout', 'Power struggles', 'Material obsession'],
+        guidance: 'Channel your ambition with balance. Avoid neglecting relationships.',
+        luckyColor: 'Gold',
+        luckyNumber: 8,
+        affirmation: 'I am capable, focused, and ready to succeed.',
+        quote: 'Success is not final; failure is not fatal: It is the courage to continue that counts. – Winston Churchill',
+        focusArea: 'Achievement',
+      },
+
+      9: {
+        title: 'Completion and Compassion',
+        summary: 'This month invites closure, forgiveness, and deeper empathy. Let go of what no longer serves you.',
+        focusThemes: ['Compassion', 'Release', 'Transformation'],
+        challenges: ['Emotional overwhelm', 'Resentment', 'Over-giving'],
+        guidance: 'Wrap up old cycles with grace. Give back to others through your experiences.',
+        luckyColor: 'Silver',
+        luckyNumber: 9,
+        affirmation: 'I am open to endings and embrace transformation.',
+        quote: 'What you leave behind is not what is engraved in stone monuments, but what is woven into the lives of others. – Pericles',
+        focusArea: 'Closure',
+      },
+      // Add more for 2–5, 7, 11, etc.
+    };
+
+    return map[number] || {
+      title: 'Balanced Growth',
+      summary: 'This is a neutral month offering space for reflection and subtle progress.',
+      focusThemes: ['Stability', 'Patience'],
+      challenges: ['Indecision', 'Stagnation'],
+      guidance: 'Keep steady. Sometimes slow is the fastest way forward.',
+      luckyColor: 'Gray',
+      luckyNumber: number,
+      affirmation: 'I grow quietly, consistently, and confidently.',
+      quote: 'Balance is not something you find; it’s something you create.',
+      focusArea: 'Reflection',
+    };
   }
 
   private calculateDailyNumber(lifePath: number, date: Date): number {
@@ -136,16 +262,14 @@ export class NumerologyService {
       },
     };
 
-    return (
-      map[dailyNumber] || {
-        prediction: 'Stay grounded and balanced today.',
-        luckyColor: 'Gray',
-        luckyNumber: dailyNumber,
-        affirmation: 'I flow with the rhythm of life.',
-        luckyActivity: 'Reflect quietly.',
-        quote: 'Balance is not something you find, it’s something you create.',
-        focusArea: 'Balance',
-      }
-    );
+    return map[dailyNumber] || {
+      prediction: 'Stay grounded and balanced today.',
+      luckyColor: 'Gray',
+      luckyNumber: dailyNumber,
+      affirmation: 'I flow with the rhythm of life.',
+      luckyActivity: 'Reflect quietly.',
+      quote: 'Balance is not something you find, it’s something you create.',
+      focusArea: 'Balance',
+    };
   }
 }
