@@ -28,6 +28,7 @@ export interface MonthlyReportResult {
   affirmation: string;
   quote: string;
   focusArea: string;
+  tips: string[];
 }
 
 @Injectable()
@@ -98,75 +99,95 @@ export class NumerologyService {
   private generateMonthlyReport(number: number): MonthlyReportResult {
     const map: Record<number, MonthlyReportResult> = {
       1: {
-        title: 'Leadership and New Beginnings',
-        summary: 'This month encourages you to take the lead and step into new opportunities. Independence and confidence will bring rewards.',
+        title: 'Ignite Your Leadership',
+        summary: 'Step boldly into new beginnings. This month is your launchpad—embrace independence, set clear intentions, and let your confidence inspire those around you.',
         focusThemes: ['Initiative', 'Courage', 'Self-Reliance'],
         challenges: ['Impatience', 'Aggression', 'Loneliness'],
-        guidance: 'Be bold but not reckless. Use your energy to inspire others.',
-        luckyColor: 'Red',
-        luckyNumber: 1,
-        affirmation: 'I lead with courage and clarity.',
-        quote: 'The journey of a thousand miles begins with one step. – Lao Tzu',
-        focusArea: 'Action',
-      },
-
-      6: {
-        title: 'Emotional Growth and Service',
-        summary: 'This month brings a nurturing energy centered around family, community, and emotional healing.',
-        focusThemes: ['Family support', 'Emotional balance', 'Healing'],
-        challenges: [
-          'Overcommitting',
-          'Neglecting self-care',
-          'People-pleasing',
+  guidance: 'Lead by example, but remember to listen. Channel your energy into projects that excite you and build momentum for the year ahead.',
+  luckyColor: 'Red',
+  luckyNumber: 1,
+  affirmation: 'I am a catalyst for positive change.',
+  quote: 'Start where you are. Use what you have. Do what you can. – Arthur Ashe',
+  focusArea: 'Taking Action',
+        tips: [
+          'Set one bold goal and take the first step.',
+          'Practice self-affirmation each morning.',
+          'Reach out to someone who inspires you.',
         ],
-        guidance: 'Support others but don’t lose yourself. Make time for emotional boundaries.',
-        luckyColor: 'Pink',
-        luckyNumber: 6,
-        affirmation: 'I give and receive love freely. I am a source of peace.',
-        quote: 'The best way to find yourself is to lose yourself in the service of others. – Gandhi',
-        focusArea: 'Care',
       },
-
+      6: {
+        title: 'Nurture & Heal',
+  summary: 'A month to deepen connections and foster emotional growth. Prioritize family, community, and your own healing journey. Your compassion is your superpower.',
+  focusThemes: ['Family Support', 'Emotional Balance', 'Healing'],
+  challenges: ['Overcommitting', 'Neglecting self-care', 'People-pleasing'],
+  guidance: 'Support others, but set healthy boundaries. Make time for self-care and let your kindness ripple outward.',
+  luckyColor: 'Pink',
+  luckyNumber: 6,
+  affirmation: 'I nurture myself and others with love and respect.',
+  quote: 'To love oneself is the beginning of a lifelong romance. – Oscar Wilde',
+  focusArea: 'Compassion in Action',
+        tips: [
+          'Schedule a self-care day this month.',
+          'Volunteer or help a friend in need.',
+          'Express gratitude to your loved ones.',
+        ],
+      },
       8: {
-        title: 'Success and Ambition',
-        summary: 'This is a month of career focus and financial empowerment. Stay disciplined and make confident decisions.',
-        focusThemes: ['Goals', 'Authority', 'Discipline'],
-        challenges: ['Burnout', 'Power struggles', 'Material obsession'],
-        guidance: 'Channel your ambition with balance. Avoid neglecting relationships.',
-        luckyColor: 'Gold',
-        luckyNumber: 8,
-        affirmation: 'I am capable, focused, and ready to succeed.',
-        quote: 'Success is not final; failure is not fatal: It is the courage to continue that counts. – Winston Churchill',
-        focusArea: 'Achievement',
+        title: 'Ambition & Achievement',
+  summary: 'Harness your drive for success. This month is about setting ambitious goals, making strategic moves, and celebrating your progress—without losing sight of what matters most.',
+  focusThemes: ['Goals', 'Authority', 'Discipline'],
+  challenges: ['Burnout', 'Power Struggles', 'Material Obsession'],
+  guidance: 'Balance ambition with self-care. Recognize your achievements and share your success with others.',
+  luckyColor: 'Gold',
+  luckyNumber: 8,
+  affirmation: 'I am focused, disciplined, and open to abundance.',
+  quote: 'Success is liking yourself, liking what you do, and liking how you do it. – Maya Angelou',
+  focusArea: 'Purposeful Progress',
+        tips: [
+          'Review your financial goals and adjust as needed.',
+          'Celebrate a recent win, no matter how small.',
+          'Delegate tasks to avoid burnout.',
+        ],
       },
-
       9: {
-        title: 'Completion and Compassion',
-        summary: 'This month invites closure, forgiveness, and deeper empathy. Let go of what no longer serves you.',
-        focusThemes: ['Compassion', 'Release', 'Transformation'],
-        challenges: ['Emotional overwhelm', 'Resentment', 'Over-giving'],
-        guidance: 'Wrap up old cycles with grace. Give back to others through your experiences.',
-        luckyColor: 'Silver',
-        luckyNumber: 9,
-        affirmation: 'I am open to endings and embrace transformation.',
-        quote: 'What you leave behind is not what is engraved in stone monuments, but what is woven into the lives of others. – Pericles',
-        focusArea: 'Closure',
+        title: 'Release & Renew',
+  summary: 'Let go of what no longer serves you. This is a month for closure, forgiveness, and making space for new blessings. Compassion and empathy will guide your way.',
+  focusThemes: ['Compassion', 'Release', 'Transformation'],
+  challenges: ['Emotional Overwhelm', 'Resentment', 'Over-giving'],
+  guidance: 'Reflect on what you need to release. Practice forgiveness and share your wisdom with others.',
+  luckyColor: 'Silver',
+  luckyNumber: 9,
+  affirmation: 'I embrace endings as opportunities for growth.',
+  quote: 'Sometimes letting things go is an act of far greater power than defending or hanging on. – Eckhart Tolle',
+  focusArea: 'Letting Go',
+        tips: [
+          'Declutter your space or digital life.',
+          'Write a letter of forgiveness (even if you don’t send it).',
+          'Share a lesson you’ve learned with someone else.',
+        ],
       },
       // Add more for 2–5, 7, 11, etc.
     };
 
-    return map[number] || {
-      title: 'Balanced Growth',
-      summary: 'This is a neutral month offering space for reflection and subtle progress.',
-      focusThemes: ['Stability', 'Patience'],
-      challenges: ['Indecision', 'Stagnation'],
-      guidance: 'Keep steady. Sometimes slow is the fastest way forward.',
-      luckyColor: 'Gray',
-      luckyNumber: number,
-      affirmation: 'I grow quietly, consistently, and confidently.',
-      quote: 'Balance is not something you find; it’s something you create.',
-      focusArea: 'Reflection',
-    };
+    return (
+      map[number] || {
+        title: 'Balanced Growth',
+        summary: 'A month for steady progress and mindful reflection. Embrace patience and let small steps lead to meaningful change.',
+        focusThemes: ['Stability', 'Patience'],
+        challenges: ['Indecision', 'Stagnation'],
+        guidance: 'Stay consistent and trust the process. Growth often happens quietly.',
+        luckyColor: 'Gray',
+        luckyNumber: number,
+        affirmation: 'I grow quietly, consistently, and confidently.',
+        quote: 'Balance is not something you find; it’s something you create.',
+        focusArea: 'Reflection',
+        tips: [
+          'Keep a journal of your progress.',
+          'Set one small, achievable goal.',
+          'Practice mindfulness or meditation.',
+        ],
+      }
+    );
   }
 
   private calculateDailyNumber(lifePath: number, date: Date): number {
