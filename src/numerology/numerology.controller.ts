@@ -21,4 +21,12 @@ export class NumerologyController {
     if (!dob) throw new BadRequestException('Date of birth (dob) is required');
     return this.numerologyService.getMonthlyOverview(dob, month);
   }
+
+  @Get('yearly')
+  getYearlyPrediction(@Query('dob') dob: string,
+    @Query('year') year?: string,
+  ) {
+    if (!dob) throw new BadRequestException('Date of birth (dob) is required');
+    return this.numerologyService.getYearlyPrediction(dob, year);
+  }
 }
